@@ -3,13 +3,13 @@ import { FC } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Home, FileText, Search, Layout } from "lucide-react";
-import { FloatingOrb } from "./floating-orb";
+// import { FloatingOrb } from "./floating-orb";
 import Image from "next/image";
 
-interface PartnerLogoProps {
-  src: string;
-  alt: string;
-}
+// interface PartnerLogoProps {
+//   src: string;
+//   alt: string;
+// }
 
 // const PartnerLogo: FC<PartnerLogoProps> = ({ src, alt }) => (
 //   <Image

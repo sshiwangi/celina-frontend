@@ -8,12 +8,12 @@ export interface NavItem {
   href: string;
 }
 
-const navItems: NavItem[] = [
-  { label: "FEATURES", href: "#features" },
-  { label: "PRICING", href: "#pricing" },
-  { label: "HOW TO USE", href: "#how-to-use" },
-  { label: "ROADMAP", href: "#roadmap" },
-];
+// const navItems: NavItem[] = [
+//   { label: "FEATURES", href: "#features" },
+//   { label: "PRICING", href: "#pricing" },
+//   { label: "HOW TO USE", href: "#how-to-use" },
+//   { label: "ROADMAP", href: "#roadmap" },
+// ];
 
 export const Navbar: FC = () => {
   return (
