@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+
 import {
   Globe,
   HelpCircle,
@@ -13,6 +15,7 @@ import {
   Radio,
   ClipboardList,
   User,
+  ChartAreaIcon,
 } from "lucide-react";
 
 interface MenuItemProps {
@@ -32,12 +35,21 @@ const MenuItem: React.FC<MenuItemProps> = ({
   href,
   hasConnector,
 }) => {
+  const pathname = usePathname();
+  // Check if this menu item's href matches the current path
+  const isCurrentPath = href === pathname;
+
+  // Base classes without hover states
   const baseClasses =
-    "relative transition-all duration-100 ease-in-out active:scale-[0.98] rounded-[11px] mb-1 border border-transparent hover:bg-hover/50 hover:border-border/50 max-w-full min-w-[37px]";
-  const activeClasses = isActive ? "bg-active border-primary/10" : "";
+    "relative transition-all duration-100 ease-in-out active:scale-[0.98] rounded-[11px] mb-1 border max-w-full min-w-[37px]";
+
+  // Separate classes for active and inactive states including their specific hover behaviors
+  const stateClasses = isCurrentPath
+    ? "bg-primary border-primary/10 hover:bg-active hover:border-primary/20" // Active item hover
+    : "border-transparent hover:bg-hover/50 hover:border-border/50"; // Inactive item hover
 
   const content = (
-    <div className={`${baseClasses} ${activeClasses}`}>
+    <div className={`${baseClasses} ${stateClasses}`}>
       {hasConnector && (
         <div className="absolute z-0 top-[7px] left-[-18px] w-3 h-3 border-b-2 border-l-2 border-border rounded-bl-full" />
       )}
@@ -49,7 +61,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
           <div>
             <p
               className={`chakra-text line-clamp-1 ${
-                isActive ? "!text-text" : "!text-text/60"
+                isCurrentPath ? "!text-text" : "!text-text/60"
               }`}
             >
               {label}
@@ -127,6 +139,8 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 };
 
 const Sidebar = () => {
+    const pathname = usePathname();
+
   return (
     <div className="relative hidden sm:flex bg-background">
       <div className="flex flex-col justify-between p-[18px] relative h-full w-[250px]">
@@ -142,7 +156,7 @@ const Sidebar = () => {
           <MenuItem
             icon={<Globe className="w-3.5 h-3.5 text-icon/30" />}
             label="Overview"
-            href="dashboard/overview"
+            href="/dashboard/overview"
           />
 
           <CollapsibleSection
@@ -154,26 +168,37 @@ const Sidebar = () => {
               label="Assistants"
               href="/dashboard/assistants"
             />
-            <MenuItem
-              icon={<Phone className="w-3.5 h-3.5 text-primary" />}
+            {/* <MenuItem
+              icon={
+                <Phone
+                  className={`w-3.5 h-3.5 ${
+                    pathname === "/dashboard/phone-numbers"
+                      ? "text-primary"
+                      : "text-icon/30"
+                  }`}
+                />
+              }
               label="Phone Numbers"
               href="/dashboard/phone-numbers"
-              isActive={true}
-            />
+            /> */}
             <MenuItem
               icon={<FileText className="w-3.5 h-3.5 text-icon/30" />}
               label="Files"
               href="/dashboard/files"
             />
+
+            <MenuItem
+              icon={<ChartAreaIcon className="w-3.5 h-3.5 text-icon/30" />}
+              label="Sales Report"
+              href="/dashboard/sales-report"
+            />
           </CollapsibleSection>
 
           <MenuItem
             icon={<Radio className="w-3.5 h-3.5 text-icon/30" />}
-            label="Voice Library"
-            href="/library/voice"
+            label="Marketplace"
+            href="/dashboard/marketplace"
           />
-
-          
         </div>
 
         <div className="flex flex-col relative gap-y-1">
