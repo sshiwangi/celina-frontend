@@ -6,9 +6,11 @@ interface SalesData {
   id: string | number;
   name: string;
   phone: string;
-  callSummary: string;
+  callStatus: string;
+  summary: string;
   leadConversionRate: string;
   salesSuccessRate: string;
+  callDuration: string;
   [key: string]: string | number;
 }
 
@@ -24,15 +26,94 @@ interface SalesTableProps {
 const defaultColumns: Column[] = [
   { id: "name", name: "Name" },
   { id: "phone", name: "Phone" },
-  { id: "callSummary", name: "Call Summary" },
+  { id: "callStatus", name: "Call Status" },
+  { id: "summary", name: "Call Summary" },
   { id: "leadConversionRate", name: "Lead Conversion Rate" },
   { id: "salesSuccessRate", name: "Sales Success Rate" },
+  { id: "callDuration", name: "Call Duration" },
 ];
 
-const SalesTable = ({ data }: SalesTableProps) => {
+const callStatuses = [
+  "Dialing...",
+  "In Call",
+  "Call Ended",
+  "No Answer",
+  "Busy",
+  "Call Failed",
+  "Voicemail",
+];
+const callDurations = ["0:30", "1:15", "2:45", "3:20", "4:00", "5:10", "0:45"];
+
+const SalesTable = ({ data: initialData }: SalesTableProps) => {
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [newColumnName, setNewColumnName] = useState("");
+  const [data, setData] = useState<SalesData[]>(initialData);
+  const [isSimulatingCalls, setIsSimulatingCalls] = useState(false);
+
+  const simulateCallAPI = async (
+    phoneNumber: string
+  ): Promise<{ status: string; duration: string }> => {
+    // Simulate API delay
+    await new Promise((resolve) =>
+      setTimeout(resolve, Math.random() * 2000 + 1000)
+    );
+
+    // Randomly select a status and duration
+    const status =
+      callStatuses[Math.floor(Math.random() * callStatuses.length)];
+    const duration =
+      status === "No Answer" || status === "Busy" || status === "Call Failed"
+        ? "0:00"
+        : callDurations[Math.floor(Math.random() * callDurations.length)];
+
+    return { status, duration };
+  };
+
+  const startCalling = async () => {
+    if (isSimulatingCalls) return;
+    setIsSimulatingCalls(true);
+
+    // Create a copy of the data to update
+    let updatedData = [...data];
+
+    // Process each phone number sequentially
+    for (let i = 0; i < updatedData.length; i++) {
+      const row = updatedData[i];
+
+      // Update status to "Dialing..."
+      updatedData = updatedData.map((item, index) =>
+        index === i
+          ? { ...item, callStatus: "Dialing...", callDuration: "0:00" }
+          : item
+      );
+      setData(updatedData);
+
+      // Simulate API call
+      try {
+        const { status, duration } = await simulateCallAPI(row.phone);
+
+        // Update with API response
+        updatedData = updatedData.map((item, index) =>
+          index === i
+            ? { ...item, callStatus: status, callDuration: duration }
+            : item
+        );
+        setData(updatedData);
+      } catch (error) {
+        console.error("Error simulating call:", error);
+        // Update with error status
+        updatedData = updatedData.map((item, index) =>
+          index === i
+            ? { ...item, callStatus: "Call Failed", callDuration: "0:00" }
+            : item
+        );
+        setData(updatedData);
+      }
+    }
+
+    setIsSimulatingCalls(false);
+  };
 
   const addColumn = () => {
     if (newColumnName.trim()) {
@@ -81,7 +162,52 @@ const SalesTable = ({ data }: SalesTableProps) => {
                       key={column.id}
                       className="px-6 py-4 text-sm text-text whitespace-nowrap"
                     >
-                      {row[column.id] || "-"}
+                      {column.id === "callStatus" ? (
+                        <span
+                          className={`
+                            px-2 py-1 rounded-full text-xs
+                            ${
+                              row[column.id] === "Dialing..."
+                                ? "bg-yellow-100 text-yellow-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "In Call"
+                                ? "bg-green-100 text-green-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "Call Ended"
+                                ? "bg-blue-100 text-blue-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "No Answer"
+                                ? "bg-red-100 text-red-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "Busy"
+                                ? "bg-orange-100 text-orange-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "Call Failed"
+                                ? "bg-red-100 text-red-800"
+                                : ""
+                            }
+                            ${
+                              row[column.id] === "Voicemail"
+                                ? "bg-purple-100 text-purple-800"
+                                : ""
+                            }
+                          `}
+                        >
+                          {row[column.id] || "-"}
+                        </span>
+                      ) : (
+                        row[column.id] || "-"
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -100,12 +226,16 @@ const SalesTable = ({ data }: SalesTableProps) => {
         </table>
       </div>
 
-      <div className="flex w-full justify-center items-center mt-8">
+      <div className="flex w-full justify-center items-center p-4">
         <button
-          onClick={() => setShowAddColumn(true)}
-          className="flex items-center gap-2 px-3 py-1.5 bg-primary/80 text-white rounded-lg hover:bg-primary transition-all duration-150 text-sm"
+          onClick={startCalling}
+          disabled={isSimulatingCalls}
+          className={`flex items-center gap-2 px-3 py-1.5 bg-primary/80 text-white rounded-lg hover:bg-primary transition-all duration-150 text-sm ${
+            isSimulatingCalls ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          <PhoneCall size={16} /> Start Calling
+          <PhoneCall size={16} />
+          {isSimulatingCalls ? "Calling in Progress..." : "Start Calling"}
         </button>
       </div>
 
