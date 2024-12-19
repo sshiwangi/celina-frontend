@@ -7,27 +7,7 @@ import ModelConfig from "@/components/Layout/Assistant/ModelConfig";
 export default function AssistantsPage() {
   const assistantData = {
     name: "Ava",
-    id: "b99cb6c3-e7bf-47ff-ae6b-3ef9fd12dbf3",
-    metrics: {
-      cost: {
-        value: "$0.09",
-        stats: [
-          { color: "rgb(93, 254, 202)", width: "54.3478%", isFirst: true },
-          { color: "rgb(219, 39, 119)", width: "10.8696%" },
-          { color: "rgb(14, 165, 233)", width: "10.8696%" },
-          { color: "rgb(252, 211, 77)", width: "23.913%", isLast: true },
-        ],
-      },
-      latency: {
-        value: "700",
-        stats: [
-          { color: "rgb(219, 39, 119)", width: "14.2857%", isFirst: true },
-          { color: "rgb(14, 165, 233)", width: "35.7143%" },
-          { color: "rgb(252, 211, 77)", width: "35.7143%" },
-          { color: "rgb(192, 38, 211)", width: "14.2857%", isLast: true },
-        ],
-      },
-    },
+    
   };
 
 const assistantListData = [

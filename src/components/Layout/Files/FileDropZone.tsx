@@ -19,12 +19,14 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileDrop }) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      console.log("Dropped files:", e.dataTransfer.files); // Log dropped file data
       onFileDrop(e.dataTransfer.files);
     }
   };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      console.log("Selected files:", e.target.files); // Log selected file data
       onFileDrop(e.target.files);
     }
   };
@@ -45,8 +47,8 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileDrop }) => {
         className="dropzone group relative border-dashed border-[3px] min-h-20 flex flex-col items-center justify-center text-wrap mx-auto rounded-xl p-4 cursor-pointer active:scale-[0.98] transition-all duration-150 ease-in-out bg-secondary border-border/80 hover:border-border"
       >
         <input
-          ref={fileInputRef} // Add ref
-          accept="text/markdown,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ref={fileInputRef}
+          accept="text/markdown,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.csv,.xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"
           type="file"
           onChange={handleFileInput}
           className="hidden"

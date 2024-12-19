@@ -2,14 +2,45 @@
 import FileDropzone from "@/components/Layout/Files/FileDropZone";
 import FilesList from "@/components/Layout/Files/FilesList";
 import SalesTable from "@/components/Layout/Files/SalesTable";
+import { extractFileData, mapDataToSchema } from "@/utils/file_handler";
 import React, { useState } from "react";
+
+interface UploadedFile {
+  name: string;
+  type: string;
+}
 
 function Files() {
   const [hasUploadedFile, setHasUploadedFile] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [tableData, setTableData] = useState([]);
 
-  const handleFileDrop = (files: FileList) => {
+  const handleFileDrop = async (files: FileList) => {
     if (files.length > 0) {
-      setHasUploadedFile(true);
+      const file = files[0];
+      try {
+        const extractedData = await extractFileData(file);
+
+        if (extractedData.error) {
+          console.error("Error extracting file data:", extractedData.error);
+          return;
+        }
+
+        const mappedData = mapDataToSchema(extractedData);
+        setTableData(mappedData);
+        setHasUploadedFile(true);
+
+        const newFile = {
+          name: file.name,
+          type:
+            file.type ||
+            file.name.split(".").pop()?.toUpperCase() + " File" ||
+            "Unknown File",
+        };
+        setUploadedFiles([...uploadedFiles, newFile]);
+      } catch (error) {
+        console.error("Error processing file:", error);
+      }
     }
   };
 
@@ -30,9 +61,9 @@ function Files() {
       className="flex flex-col sm:flex-row flex-1 h-full"
       data-testid="documents-page-content"
     >
-      <FilesList />
+      <FilesList files={uploadedFiles} onFileSelect={() => {}} />
       <div className="flex-1">
-        <SalesTable />
+        <SalesTable data={tableData} />
       </div>
     </div>
   );

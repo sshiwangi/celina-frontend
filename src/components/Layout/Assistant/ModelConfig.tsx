@@ -23,7 +23,7 @@ const ModelConfig: React.FC<ModelConfigProps> = ({
   detectEmotion = true,
 }) => {
   return (
-    <div className="flex flex-col lg:gap-4 bg-background/70 rounded-2xl sm:px-4 pt-4 sm:py-4 border border-border">
+    <div className="flex flex-col flex-1 lg:gap-4 bg-background/70 rounded-2xl sm:px-4 pt-4 sm:py-4 border border-border">
       {/* Header */}
       <div className="px-2 mb-2 flex flex-row justify-between items-center w-full">
         <div>
@@ -65,10 +65,10 @@ const ModelConfig: React.FC<ModelConfigProps> = ({
 
           {/* System Prompt */}
           <div
-            className="chakra-stack flex-1 min-h-80"
+            className=" h-full flex flex-col pb-4 min-h-80"
             data-testid="system-prompt-box"
           >
-            <div className="space-y-2 w-full">
+            <div className="space-y-2 h-full w-full">
               <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm text-muted-foreground flex flex-row items-center">
                 System Prompt
                 <CircleParkingOffIcon className="w-[12px] h-[12px] fill-yellow-400 ml-2 cursor-pointer" />
@@ -76,7 +76,7 @@ const ModelConfig: React.FC<ModelConfigProps> = ({
               <textarea
                 value={systemPrompt}
                 placeholder="Add your prompt here..."
-                className="flex w-full rounded-md text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 mt-2 h-auto min-h-80 box-border resize-y bg-secondary text-text hover:bg-hover border border-border shadow-sm shadow-black/10 transition-all duration-150 ease-in-out"
+                className="flex w-full h-full rounded-md text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 mt-2 h-auto min-h-80 box-border resize-y bg-secondary text-text hover:bg-hover border border-border shadow-sm shadow-black/10 transition-all duration-150 ease-in-out"
               />
             </div>
           </div>

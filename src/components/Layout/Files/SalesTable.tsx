@@ -1,17 +1,15 @@
 "use client";
-
 import React, { useState } from "react";
-import { Plus } from "lucide-react";
-import Papa from "papaparse";
+import { PhoneCall, Plus } from "lucide-react";
 
 interface SalesData {
-  id: number;
+  id: string | number;
   name: string;
   phone: string;
   callSummary: string;
   leadConversionRate: string;
   salesSuccessRate: string;
-  [key: string]: string | number; // For dynamic columns
+  [key: string]: string | number;
 }
 
 interface Column {
@@ -19,51 +17,34 @@ interface Column {
   name: string;
 }
 
-const SalesTable = () => {
-  const [data, setData] = useState<SalesData[]>([]);
-  const [columns, setColumns] = useState<Column[]>([
-    { id: "name", name: "Name" },
-    { id: "phone", name: "Phone" },
-    { id: "callSummary", name: "Call Summary" },
-    { id: "leadConversionRate", name: "Lead Conversion Rate" },
-    { id: "salesSuccessRate", name: "Sales Success Rate" },
-  ]);
+interface SalesTableProps {
+  data: SalesData[];
+}
+
+const defaultColumns: Column[] = [
+  { id: "name", name: "Name" },
+  { id: "phone", name: "Phone" },
+  { id: "callSummary", name: "Call Summary" },
+  { id: "leadConversionRate", name: "Lead Conversion Rate" },
+  { id: "salesSuccessRate", name: "Sales Success Rate" },
+];
+
+const SalesTable = ({ data }: SalesTableProps) => {
+  const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [newColumnName, setNewColumnName] = useState("");
-
-  const handleFileUpload = (files: FileList) => {
-    const file = files[0];
-    Papa.parse(file, {
-      complete: (results: { data: string[][] }) => {
-        // Transform CSV data to match our data structure
-        const transformedData = results.data
-          .slice(1)
-          .map((row: string[], index: number) => ({
-            id: index + 1,
-            name: row[0],
-            phone: row[1],
-            callSummary: "Pending",
-            leadConversionRate: "0%",
-            salesSuccessRate: "0%",
-          }));
-        setData(transformedData);
-      },
-      header: false,
-    });
-  };
 
   const addColumn = () => {
     if (newColumnName.trim()) {
       const columnId = newColumnName.toLowerCase().replace(/\s+/g, "_");
       setColumns([...columns, { id: columnId, name: newColumnName }]);
-      setData(data.map((row) => ({ ...row, [columnId]: "-" })));
       setNewColumnName("");
       setShowAddColumn(false);
     }
   };
 
   return (
-    <div className="flex flex-col w-full p-4">
+    <div className="flex flex-col w-full h-full p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-bold text-text">Sales Data</h2>
         <button
@@ -71,6 +52,60 @@ const SalesTable = () => {
           className="flex items-center gap-2 px-3 py-1.5 bg-primary/80 text-white rounded-lg hover:bg-primary transition-all duration-150 text-sm"
         >
           <Plus size={16} /> Add Column
+        </button>
+      </div>
+
+      <div className="overflow-x-auto border border-border rounded-lg">
+        <table className="min-w-full divide-y divide-border">
+          <thead className="bg-background/70">
+            <tr>
+              {columns.map((column) => (
+                <th
+                  key={column.id}
+                  className="px-6 py-3 text-left text-xs font-medium text-text/60 uppercase tracking-wider"
+                >
+                  {column.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-background divide-y divide-border">
+            {data.length > 0 ? (
+              data.map((row) => (
+                <tr
+                  key={row.id}
+                  className="hover:bg-secondary/50 transition-colors border-b border-border/30"
+                >
+                  {columns.map((column) => (
+                    <td
+                      key={column.id}
+                      className="px-6 py-4 text-sm text-text whitespace-nowrap"
+                    >
+                      {row[column.id] || "-"}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-6 py-4 text-sm text-text text-center"
+                >
+                  No data available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="flex w-full justify-center items-center mt-8">
+        <button
+          onClick={() => setShowAddColumn(true)}
+          className="flex items-center gap-2 px-3 py-1.5 bg-primary/80 text-white rounded-lg hover:bg-primary transition-all duration-150 text-sm"
+        >
+          <PhoneCall size={16} /> Start Calling
         </button>
       </div>
 
@@ -104,40 +139,6 @@ const SalesTable = () => {
           </div>
         </div>
       )}
-
-      <div className="overflow-x-auto border border-border rounded-lg">
-        <table className="min-w-full divide-y divide-border">
-          <thead className="bg-background/70">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.id}
-                  className="px-6 py-3 text-left text-xs font-medium text-text/60 uppercase tracking-wider"
-                >
-                  {column.name}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-background divide-y divide-border">
-            {data.map((row) => (
-              <tr
-                key={row.id}
-                className="hover:bg-secondary/50 transition-colors"
-              >
-                {columns.map((column) => (
-                  <td
-                    key={column.id}
-                    className="px-6 py-4 text-sm text-text whitespace-nowrap"
-                  >
-                    {row[column.id]}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };

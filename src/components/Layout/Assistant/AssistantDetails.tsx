@@ -82,27 +82,6 @@ const MetricCard: React.FC<MetricCardProps> = ({
 interface AssistantDetailsProps {
   assistant: {
     name: string;
-    id: string;
-    metrics: {
-      cost: {
-        value: string;
-        stats: Array<{
-          color: string;
-          width: string;
-          isFirst?: boolean;
-          isLast?: boolean;
-        }>;
-      };
-      latency: {
-        value: string;
-        stats: Array<{
-          color: string;
-          width: string;
-          isFirst?: boolean;
-          isLast?: boolean;
-        }>;
-      };
-    };
   };
 }
 
@@ -133,31 +112,7 @@ export const AssistantDetails: React.FC<AssistantDetailsProps> = ({
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1">
-                <div className="text-xs text-text/70 font-medium">
-                  Assistant ID
-                </div>
-                <div className="flex flex-wrap items-center box-border w-[95%] sm:w-[220px] bg-secondary border border-border p-1 pl-2 rounded-xl hover:cursor-pointer justify-between">
-                  <span className="text-xs text-text/50 font-mono text-nowrap overflow-hidden block max-w-[70%] relative">
-                    {assistant.id}
-                    <span className="absolute top-0 right-0 bottom-0 left-1/2 bg-gradient-to-r from-transparent to-secondary" />
-                  </span>
-                  <div className="flex flex-row gap-x-2">
-                    <button
-                      aria-label="Copy ID"
-                      className="group bg-border/50 rounded-lg p-[6px] cursor-pointer hover:bg-border/80 active:scale-[0.95]"
-                    >
-                      <DollarSign className="w-[14px] h-[14px] text-icon/50 group-hover:text-primary" />
-                    </button>
-                    <button
-                      aria-label="Share"
-                      className="group bg-border/50 rounded-lg p-[6px] cursor-pointer hover:bg-border/80 active:scale-[0.95]"
-                    >
-                      <Phone className="w-[14px] h-[14px] text-icon/50 group-hover:text-primary" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+             
             </div>
           </div>
 
@@ -180,25 +135,6 @@ export const AssistantDetails: React.FC<AssistantDetailsProps> = ({
             <button className="inline-flex items-center justify-center whitespace-nowrap ring-1 ring-transparent text-sm font-bold transition-all duration-150 ease-in-out active:scale-[0.98] group rounded-lg border border-border/50 hover:bg-secondary/50 hover:border-border hover:shadow-sm hover:shadow-black/10 text-text/50 hover:text-text h-10 w-10 min-w-[40px]">
               <MoreVertical className="w-4 h-4 text-icon/50 rotate-90" />
             </button>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 w-full p-2">
-          <div className="flex flex-col sm:flex-row gap-4 mb-4">
-            <MetricCard
-              title="Cost"
-              value={assistant.metrics.cost.value}
-              unit="/min"
-              stats={assistant.metrics.cost.stats}
-              icon={<DollarSign className="w-[18px] h-[18px] text-icon/50" />}
-            />
-            <MetricCard
-              title="Latency"
-              value={assistant.metrics.latency.value}
-              unit="ms"
-              stats={assistant.metrics.latency.stats}
-              icon={<Clock className="w-[18px] h-[18px] text-icon/50" />}
-            />
           </div>
         </div>
       </div>

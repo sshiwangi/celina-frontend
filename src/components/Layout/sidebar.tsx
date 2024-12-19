@@ -139,24 +139,24 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 };
 
 const Sidebar = () => {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
   return (
     <div className="relative hidden sm:flex bg-background">
       <div className="flex flex-col justify-between p-[18px] relative h-full w-[250px]">
         <div>
           <div className="mb-4">
-            <img
+            {/* <img
               src="/images/logo-vapi.svg"
               alt="Logo"
               className="h-8 cursor-pointer hover:opacity-80 transition-all duration-150 ease-in-out"
-            />
+            /> */}
           </div>
 
           <MenuItem
             icon={<Globe className="w-3.5 h-3.5 text-icon/30" />}
             label="Overview"
-            href="/dashboard/overview"
+            href="/dashboard"
           />
 
           <CollapsibleSection
