@@ -19,19 +19,50 @@ const config = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        // Background colors
+        background: "#1C1C1C",
+        secondary: "#2A2A2A",
+        hover: "#2E2E2E",
+
+        // Border colors
+        border: "#3A3A3A",
+
+        // Text colors
+        text: {
+          DEFAULT: "#FFFFFF",
+          secondary: "#A0A0A0",
+        },
+
+        // Icon colors
+        icon: {
+          DEFAULT: "#FFFFFF",
+          secondary: "#808080",
+        },
+
+        // Brand/Primary colors
+        primary: {
+          DEFAULT: "#4A9D9A",
+          hover: "#5AB5B2",
+        },
+
+        // Active item background
+        active: "#2A4A49",
+        emerald: {
+          400: "#a8ff95",
+        },
+        // border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        // background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
+        // primary: {
+        //   DEFAULT: "hsl(var(--primary))",
+        //   foreground: "hsl(var(--primary-foreground))",
+        // },
+        // secondary: {
+        //   DEFAULT: "hsl(var(--secondary))",
+        //   foreground: "hsl(var(--secondary-foreground))",
+        // },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

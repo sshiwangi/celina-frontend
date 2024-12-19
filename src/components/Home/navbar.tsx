@@ -1,73 +1,44 @@
-import { FC } from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
-
-export interface NavItem {
-  label: string;
-  href: string;
-}
-
-// const navItems: NavItem[] = [
-//   { label: "FEATURES", href: "#features" },
-//   { label: "PRICING", href: "#pricing" },
-//   { label: "HOW TO USE", href: "#how-to-use" },
-//   { label: "ROADMAP", href: "#roadmap" },
-// ];
-
-export const Navbar: FC = () => {
+"use client";
+const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur-md border-b border-white/[0.02]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logo.svg"
-              alt="Brainwave"
-              width={32}
-              height={32}
-              className="w-8 h-8"
-            />
-            <span className="text-white text-xl font-semibold">Celina</span>
-          </div>
+    <nav className="absolute top-0 left-0 right-0 z-50 px-8 py-6">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="text-2xl font-medium">Celina</div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="#features"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
+        <div className="flex items-center gap-8">
+          <div className="flex gap-8 bg-white/10 backdrop-blur-md px-8 py-2 rounded-full">
+            <a
+              href="#"
+              className="text-white/80 hover:text-white transition-colors"
             >
-              FEATURES
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
+              Product
+            </a>
+            <a
+              href="#"
+              className="text-white/80 hover:text-white transition-colors"
             >
-              PRICING
-            </Link>
-            <Link
-              href="#how"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
+              Services
+            </a>
+            <a
+              href="#"
+              className="text-white/80 hover:text-white transition-colors"
             >
-              HOW TO USE
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link
-              href="/new-account"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
+              About
+            </a>
+            <a
+              href="#"
+              className="text-white/80 hover:text-white transition-colors"
             >
-              SIGN UP
-            </Link>
-            <Button
-              variant="outline"
-              className="bg-dark-800 text-white border-white/10 hover:bg-dark-700 hover:border-white/20"
-            >
-              SIGN IN
-            </Button>
+              Resources
+            </a>
           </div>
         </div>
+        <button className="bg-white/10 backdrop-blur-md text-white px-6 py-2 rounded-full hover:bg-white/20 transition-colors">
+          Sign In
+        </button>
       </div>
     </nav>
   );
 };
+
+export default Navbar;
