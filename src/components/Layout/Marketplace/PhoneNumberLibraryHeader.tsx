@@ -2,10 +2,9 @@
 import {
   Search,
   Filter,
-  Copy,
   Plus,
-  RefreshCw,
   ChevronDown,
+  LucideIcon,
 } from "lucide-react";
 import React, { useState } from "react";
 
@@ -15,31 +14,36 @@ interface PhoneNumberLibraryHeaderProps {
   onSortPrice: (order: "asc" | "desc") => void;
   types: string[];
 }
-
-const ActionButton: React.FC<{
-  icon: React.ReactNode;
+interface ActionButtonProps {
+  icon: LucideIcon; // Use LucideIcon type for the icons
   label: string;
   onClick?: () => void;
   disabled?: boolean;
-}> = ({ icon, label, onClick, disabled = false }) => (
+}
+
+const ActionButton: React.FC<ActionButtonProps> = ({
+  icon: Icon, // Destructure as Icon (capital I)
+  label,
+  onClick,
+  disabled = false,
+}) => (
   <button
     onClick={onClick}
     disabled={disabled}
     className={`group flex items-center justify-center gap-2 px-4 py-2 rounded-lg 
-    transition-all duration-300 ease-out
-    ${
-      disabled
-        ? "bg-gray-800/40 text-gray-500 cursor-not-allowed"
-        : "bg-secondary/60 hover:bg-primary/20 text-gray-400 hover:text-primary border border-gray-700/50 hover:border-primary/30"
-    }
-    font-medium text-sm shadow-lg hover:shadow-primary/20 
-    transform hover:-translate-y-[1px] active:translate-y-0`}
+      transition-all duration-300 ease-out
+      ${
+        disabled
+          ? "bg-gray-800/40 text-gray-500 cursor-not-allowed"
+          : "bg-secondary/60 hover:bg-primary/20 text-gray-400 hover:text-primary border border-gray-700/50 hover:border-primary/30"
+      } font-medium text-sm shadow-lg hover:shadow-primary/20 
+      transform hover:-translate-y-[1px] active:translate-y-0`}
   >
-    {React.cloneElement(icon as React.ReactElement, {
-      className: `w-4 h-4 transition-transform duration-300 ${
+    <Icon
+      className={`w-4 h-4 transition-transform duration-300 ${
         disabled ? "" : "group-hover:scale-110"
-      }`,
-    })}
+      }`}
+    />
     <span>{label}</span>
   </button>
 );
@@ -110,8 +114,7 @@ const PhoneNumberLibraryHeader: React.FC<PhoneNumberLibraryHeaderProps> = ({
             </p>
           </div>
           <div className="flex gap-3 items-center">
-           
-            <ActionButton icon={<Plus />} label="Add" />
+            <ActionButton icon={Plus} label="Add" />{" "}
           </div>
         </div>
 

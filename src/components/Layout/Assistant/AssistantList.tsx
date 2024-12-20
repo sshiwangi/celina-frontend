@@ -8,7 +8,7 @@ interface AssistantsListProps {
 const AssistantList: React.FC<AssistantsListProps> = ({ tabs, onTabClick }) => {
   return (
     <div
-      className="flex flex-col w-full sm:max-w-[320px] p-4 hide-scrollbar gap-y-2 hidden sm:flex"
+      className=" flex-col w-full sm:max-w-[320px] p-4 hide-scrollbar gap-y-2 hidden sm:flex"
       role="list"
       data-testid="assistants-list"
     >

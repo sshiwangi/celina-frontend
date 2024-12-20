@@ -4,7 +4,6 @@ import React from "react";
 import { PhoneCall } from "lucide-react";
 
 const SalesList = () => {
-  const router = useRouter();
 
   const reports = [
     {

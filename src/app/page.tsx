@@ -16,7 +16,6 @@ const AudioBlob: React.FC<AudioBlobProps> = ({ isListening = true }) => {
 
   const generatePoints = useCallback(
     (intensity: number) => {
-      // Add explicit type here
       return Array(40)
         .fill(0)
         .map((_, i) => {

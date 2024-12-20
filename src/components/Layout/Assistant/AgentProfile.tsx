@@ -47,7 +47,7 @@ const AgentProfile = () => {
               <textarea
                 value={mockAgentData.personality}
                 placeholder="Describe the agent's personality..."
-                className="flex w-full h-full rounded-md text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 mt-2 h-auto min-h-80 box-border resize-y bg-secondary text-text hover:bg-hover border border-border shadow-sm shadow-black/10 transition-all duration-150 ease-in-out"
+                className="flex w-full rounded-md text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 mt-2 h-auto min-h-80 box-border resize-y bg-secondary text-text hover:bg-hover border border-border shadow-sm shadow-black/10 transition-all duration-150 ease-in-out"
               />
             </div>
           </div>
