@@ -38,7 +38,6 @@ function Files() {
           return;
         }
 
-        // Map the data and ensure it matches SalesData interface
         const mappedData = mapDataToSchema(extractedData).map((item: any) => ({
           id: item.id || Math.random().toString(),
           name: item.name || "",

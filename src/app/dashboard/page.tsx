@@ -21,7 +21,6 @@ import {
   Users,
   PhoneCall,
   Clock,
-  Calendar,
   LucideIcon,
 } from "lucide-react";
 
@@ -188,7 +187,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, children }) => (
   </motion.div>
 );
 
-const InsightCard: React.FC<InsightCardProps> = ({ title, value, trend }) => (
+const InsightCard: React.FC<InsightCardProps> = ({ title, value }) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}

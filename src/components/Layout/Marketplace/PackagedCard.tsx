@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Copy, Star, Phone, ChevronRight } from "lucide-react";
+import { Star, Phone, ChevronRight } from "lucide-react";
 import { PhonePackage } from "@/types/marketPlace";
 
 interface PackageCardProps {
