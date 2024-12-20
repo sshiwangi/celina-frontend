@@ -7,11 +7,8 @@ import {
   HelpCircle,
   Cpu,
   Users,
- 
   FileText,
-  
   Radio,
-  
   User,
   ChartAreaIcon,
 } from "lucide-react";
@@ -137,7 +134,6 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 };
 
 const Sidebar = () => {
-
   return (
     <div className="relative hidden sm:flex bg-background">
       <div className="flex flex-col justify-between p-[18px] relative h-full w-[250px]">
@@ -180,7 +176,7 @@ const Sidebar = () => {
             /> */}
               <MenuItem
                 icon={<FileText className="w-3.5 h-3.5 text-icon/30" />}
-                label="Files"
+                label="Knowledge Base"
                 href="/dashboard/files"
               />
 

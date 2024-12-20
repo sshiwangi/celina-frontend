@@ -14,16 +14,16 @@ interface SalesTableProps {
 
 const defaultColumns: Column[] = [
   { id: "name", name: "Name" },
-  { id: "phone", name: "Phone" },
+  // { id: "phone", name: "Phone" },
   { id: "callStatus", name: "Call Status" },
-  { id: "summary", name: "Call Summary" },
+  // { id: "summary", name: "Call Summary" },
   { id: "leadConversionRate", name: "Lead Conversion Rate" },
-  { id: "salesSuccessRate", name: "Sales Success Rate" },
+  // { id: "salesSuccessRate", name: "Sales Success Rate" },
   { id: "callDuration", name: "Call Duration" },
-  { id: "callbackRequested", name: "Callback Requested" },
-  { id: "nextFollowUpDate", name: "Next Follow Up" },
-  { id: "productDiscussed", name: "Product" },
-  { id: "priceQuoted", name: "Price Quoted" },
+  // { id: "callbackRequested", name: "Callback Requested" },
+  // { id: "nextFollowUpDate", name: "Next Follow Up" },
+  // { id: "productDiscussed", name: "Product" },
+  // { id: "priceQuoted", name: "Price Quoted" },
 ];
 
 const SalesTable = ({ data }: SalesTableProps) => {

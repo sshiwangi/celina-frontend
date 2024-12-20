@@ -11,7 +11,7 @@ function SalesReport() {
       className="flex flex-col sm:flex-row flex-1 h-full"
       data-testid="sales-report-content"
     >
-      <SalesList />
+      {/* <SalesList /> */}
       <div className="flex-1">
         <SalesTable data={mockSalesData} />
       </div>
