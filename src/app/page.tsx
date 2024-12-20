@@ -1,24 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import DarkVoiceCircle from "@/components/Home/voice-circle";
 import Navbar from "@/components/Home/navbar";
-import MicCircle from "@/components/Home/mic-circle";
-import WaveBackground from "@/components/Home/wave-background";
-import ParticleCircle from "@/components/Home/particle-circle";
-import HeroWaves from "@/components/Home/wave-background";
 import FloatingParticles from "@/components/Home/FloatingParticles";
 import { useCallback, useEffect, useState } from "react";
 import { MicIcon, StopCircle } from "lucide-react";
 
+interface AudioBlobProps {
+  isListening?: boolean;
+}
 
-
-const AudioBlob = ({ isListening = true }) => {
+const AudioBlob: React.FC<AudioBlobProps> = ({ isListening = true }) => {
   const [points, setPoints] = useState(Array(40).fill(0));
   const [baseRotation, setBaseRotation] = useState(0);
 
   const generatePoints = useCallback(
-    (intensity) => {
+    (intensity: number) => {
+      // Add explicit type here
       return Array(40)
         .fill(0)
         .map((_, i) => {
@@ -120,10 +118,8 @@ const AudioBlob = ({ isListening = true }) => {
 };
 
 export default function Home() {
-   const [isListening, setIsListening] = useState(false);
-   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
-   
   return (
     <main className="relative min-h-screen bg-background text-white">
       <div className="absolute inset-0 " />
@@ -189,9 +185,6 @@ export default function Home() {
               </p>
             </div>
           </div>
-
-          {/* <DarkVoiceCircle /> */}
-          {/* <MicCircle /> */}
         </div>
       </div>
     </main>

@@ -10,10 +10,22 @@ interface UploadedFile {
   type: string;
 }
 
+interface SalesData {
+  id: string | number;
+  name: string;
+  phone: string;
+  callStatus: string;
+  summary: string;
+  leadConversionRate: string;
+  salesSuccessRate: string;
+  callDuration: string;
+  [key: string]: string | number; 
+}
+
 function Files() {
   const [hasUploadedFile, setHasUploadedFile] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<SalesData[]>([]);
 
   const handleFileDrop = async (files: FileList) => {
     if (files.length > 0) {
@@ -26,7 +38,19 @@ function Files() {
           return;
         }
 
-        const mappedData = mapDataToSchema(extractedData);
+        // Map the data and ensure it matches SalesData interface
+        const mappedData = mapDataToSchema(extractedData).map((item: any) => ({
+          id: item.id || Math.random().toString(),
+          name: item.name || "",
+          phone: item.phone || "",
+          callStatus: item.callStatus || "",
+          summary: item.summary || "",
+          leadConversionRate: item.leadConversionRate || "",
+          salesSuccessRate: item.salesSuccessRate || "",
+          callDuration: item.callDuration || "",
+          ...item, // Include any additional fields
+        }));
+
         setTableData(mappedData);
         setHasUploadedFile(true);
 
