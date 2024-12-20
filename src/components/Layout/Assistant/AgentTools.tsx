@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CircleParkingOffIcon, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 
 const mockActions = [
   {

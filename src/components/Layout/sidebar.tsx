@@ -29,7 +29,6 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({
   icon,
   label,
-  isActive,
   onClick,
   href,
   hasConnector,
@@ -138,7 +137,6 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 };
 
 const Sidebar = () => {
-  const pathname = usePathname();
 
   return (
     <div className="relative hidden sm:flex bg-background">
@@ -217,7 +215,7 @@ const Sidebar = () => {
                 <Globe className="w-[14px] h-[14px] text-text" />
               </div>
               <div className="overflow-hidden text-ellipsis ml-1">
-                shiwangi.kumari@rankz.io's Org
+                shiwangi.kumari@rankz.io&apos;s Org
               </div>
               <svg
                 className="h-3 w-3 shrink-0 text-text opacity-50"

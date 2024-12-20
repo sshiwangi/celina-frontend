@@ -2,11 +2,8 @@
 
 import React from "react";
 import {
-  DollarSign,
-  Clock,
   Phone,
   MoreVertical,
-  CircleParkingOffIcon,
 } from "lucide-react";
 
 interface MetricCardProps {
@@ -22,62 +19,7 @@ interface MetricCardProps {
   icon?: React.ReactNode;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({
-  title,
-  value,
-  unit,
-  stats,
-  icon,
-}) => {
-  return (
-    <div className="group h-auto flex-1 border border-border p-[12px] rounded-2xl transition-all duration-150 ease-in-out bg-secondary">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col xl:flex-row justify-between items-start gap-2 mb-2 text-base md:text-md lg:text-lg">
-          <div className="flex items-center gap-2">
-            <div className="bg-foreground border border-border rounded-xl p-[6px] shadow-sm shadow-black/10">
-              {icon || (
-                <DollarSign className="w-[18px] h-[18px] text-icon/50" />
-              )}
-            </div>
-            <h3 className="font-bold text-text/70">{title}</h3>
-            <CircleParkingOffIcon className="w-[16px] h-[16px] text-yellow-300" />
-          </div>
-          <div className="font-bold font-mono text-primary bg-background/40 rounded-xl p-[6px] px-3 border border-border">
-            {value} <span className="text-text/20">{unit}</span>
-          </div>
-        </div>
-        <div className="flex-1">
-          <div>
-            <div className="relative w-full h-[6px] my-1 flex">
-              {stats.map((stat, i) => (
-                <div
-                  key={i}
-                  className="relative h-[13px]"
-                  style={{ width: stat.width }}
-                >
-                  <div
-                    className={`h-full ${
-                      stat.isFirst ? "rounded-l-full" : ""
-                    } ${stat.isLast ? "rounded-r-full" : ""}`}
-                    style={{
-                      backgroundColor: `${stat.color}66`,
-                      border: `1px solid ${stat.color}cc`,
-                      width: "100%",
-                      height: "13px",
-                      opacity: 0.7,
-                    }}
-                  >
-                    <div className="w-full h-full text-text text-xs text-center flex items-center justify-center cursor-pointer" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+
 
 interface AssistantDetailsProps {
   assistant: {
