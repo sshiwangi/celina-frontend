@@ -504,26 +504,6 @@ export const HeroSection: FC = () => {
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-radial from-brand-purple/20 via-transparent to-transparent opacity-30" />
 
-      {/* Floating orbs */}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-3 h-3 rounded-full bg-brand-purple/30"
-          style={{
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: i * 0.2,
-          }}
-        />
-      ))}
 
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 text-center">

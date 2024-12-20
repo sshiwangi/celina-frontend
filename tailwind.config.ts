@@ -20,7 +20,7 @@ const config = {
     extend: {
       colors: {
         // Background colors
-        background: "#1C1C1C",
+        background: "#0A0E1A",
         secondary: "#2A2A2A",
         hover: "#2E2E2E",
 
@@ -45,8 +45,34 @@ const config = {
           hover: "#5AB5B2",
         },
 
+        // Cyan colors
+        cyan: {
+          300: "#22D3EE",
+          400: "#22D3EE",
+          500: "#06B6D4",
+          950: "rgb(6 182 212 / 0.1)", // For bg-cyan-950/30
+        },
+
+        // Blue colors
+        blue: {
+          400: "#0EA5E9",
+          500: "rgb(59 130 246)",
+        },
+
+        // Gray colors
+        gray: {
+          400: "rgb(156 163 175)",
+        },
+
+        // Red colors (from the stop button)
+        red: {
+          400: "rgb(248 113 113)",
+          500: "rgb(239 68 68)",
+        },
+
         // Active item background
         active: "#2A4A49",
+
         emerald: {
           400: "#a8ff95",
         },
@@ -97,6 +123,7 @@ const config = {
           },
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

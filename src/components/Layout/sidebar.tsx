@@ -17,6 +17,7 @@ import {
   User,
   ChartAreaIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 interface MenuItemProps {
   icon: React.ReactNode;
@@ -45,7 +46,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   // Separate classes for active and inactive states including their specific hover behaviors
   const stateClasses = isCurrentPath
-    ? "bg-primary border-primary/10 hover:bg-active hover:border-primary/20" // Active item hover
+    ? "bg-cyan-500 border-primary/10 hover:bg-cyan-700 hover:border-primary/20" // Active item hover
     : "border-transparent hover:bg-hover/50 hover:border-border/50"; // Inactive item hover
 
   const content = (
@@ -144,31 +145,31 @@ const Sidebar = () => {
   return (
     <div className="relative hidden sm:flex bg-background">
       <div className="flex flex-col justify-between p-[18px] relative h-full w-[250px]">
-        <div>
-          <div className="mb-4">
-            {/* <img
-              src="/images/logo-vapi.svg"
-              alt="Logo"
-              className="h-8 cursor-pointer hover:opacity-80 transition-all duration-150 ease-in-out"
-            /> */}
-          </div>
-
-          <MenuItem
-            icon={<Globe className="w-3.5 h-3.5 text-icon/30" />}
-            label="Overview"
-            href="/dashboard"
-          />
-
-          <CollapsibleSection
-            icon={<Cpu className="w-3.5 h-3.5 text-icon/30" />}
-            label="Platform"
+        <div className="">
+          <Link
+            href={"/"}
+            className="mb-8 px-2 py-4  text-3xl font-medium text-cyan-400 bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 "
           >
+            <span>Celina</span>
+          </Link>
+
+          <div className="mt-4">
             <MenuItem
-              icon={<Users className="w-3.5 h-3.5 text-icon/30" />}
-              label="Assistants"
-              href="/dashboard/assistants"
+              icon={<Globe className="w-3.5 h-3.5 text-icon/30" />}
+              label="Overview"
+              href="/dashboard"
             />
-            {/* <MenuItem
+
+            <CollapsibleSection
+              icon={<Cpu className="w-3.5 h-3.5 text-icon/30" />}
+              label="Platform"
+            >
+              <MenuItem
+                icon={<Users className="w-3.5 h-3.5 text-icon/30" />}
+                label="Assistants"
+                href="/dashboard/assistants"
+              />
+              {/* <MenuItem
               icon={
                 <Phone
                   className={`w-3.5 h-3.5 ${
@@ -181,24 +182,25 @@ const Sidebar = () => {
               label="Phone Numbers"
               href="/dashboard/phone-numbers"
             /> */}
-            <MenuItem
-              icon={<FileText className="w-3.5 h-3.5 text-icon/30" />}
-              label="Files"
-              href="/dashboard/files"
-            />
+              <MenuItem
+                icon={<FileText className="w-3.5 h-3.5 text-icon/30" />}
+                label="Files"
+                href="/dashboard/files"
+              />
+
+              <MenuItem
+                icon={<ChartAreaIcon className="w-3.5 h-3.5 text-icon/30" />}
+                label="Sales Report"
+                href="/dashboard/sales-report"
+              />
+            </CollapsibleSection>
 
             <MenuItem
-              icon={<ChartAreaIcon className="w-3.5 h-3.5 text-icon/30" />}
-              label="Sales Report"
-              href="/dashboard/sales-report"
+              icon={<Radio className="w-3.5 h-3.5 text-icon/30" />}
+              label="Marketplace"
+              href="/dashboard/marketplace"
             />
-          </CollapsibleSection>
-
-          <MenuItem
-            icon={<Radio className="w-3.5 h-3.5 text-icon/30" />}
-            label="Marketplace"
-            href="/dashboard/marketplace"
-          />
+          </div>
         </div>
 
         <div className="flex flex-col relative gap-y-1">
@@ -210,10 +212,10 @@ const Sidebar = () => {
 
           <div className="flex flex-row justify-between gap-x-2">
             <button
-              className="inline-flex items-center whitespace-nowrap text-sm font-bold text-text px-4 py-2 w-full rounded-[10px] relative border border-primary/50 bg-primary hover:border-primary ring-inset ring-2 ring-border/40 hover:ring-border/80 hover:bg-primary-hover h-auto pl-2 min-h-8 justify-between gap-1 active:scale-[0.98] overflow-hidden transition-all duration-150 ease-in-out"
+              className="inline-flex items-center whitespace-nowrap text-sm font-bold text-text px-4 py-2 w-full rounded-[10px] relative border border-cyan-300/50 bg-cyan-300/60 hover:border-cyan-300/70 ring-inset ring-2 ring-border/40 hover:ring-border/80 hover:bg-primary-hover h-auto pl-2 min-h-8 justify-between gap-1 active:scale-[0.98] overflow-hidden transition-all duration-150 ease-in-out"
               style={{ maxWidth: "77%" }}
             >
-              <div className="bg-secondary/30 p-1 rounded-md shadow-sm shadow-black/10">
+              <div className="bg-cyan-300/30 p-1 rounded-md shadow-sm shadow-black/10">
                 <Globe className="w-[14px] h-[14px] text-text" />
               </div>
               <div className="overflow-hidden text-ellipsis ml-1">

@@ -146,7 +146,6 @@ const mockData: DashboardData = {
   },
 };
 
-const COLORS: string[] = ["#4A9D9A", "#5AB5B2", "#2A4A49", "#A8FF95"];
 
 const StatCard: React.FC<StatCardProps> = ({
   title,
@@ -159,19 +158,19 @@ const StatCard: React.FC<StatCardProps> = ({
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
-    className="bg-secondary p-6 rounded-xl border border-border/50 hover:border-primary/30 transition-all duration-300"
+    className="bg-dark p-6 rounded-xl border border-cyan-500/10 hover:border-cyan-400/30 transition-all duration-300"
   >
     <div className="flex items-start justify-between">
       <div>
-        <p className="text-text/60 text-sm mb-1">{title}</p>
-        <h3 className="text-2xl font-bold text-text">
+        <p className="text-gray-400 text-sm mb-1">{title}</p>
+        <h3 className="text-2xl font-bold text-cyan-400">
           {prefix}
           {value}
           {suffix}
         </h3>
       </div>
-      <div className="p-3 bg-primary/10 rounded-lg">
-        <Icon className="w-6 h-6 text-primary" />
+      <div className="p-3 bg-cyan-950/30 rounded-lg">
+        <Icon className="w-6 h-6 text-cyan-400" />
       </div>
     </div>
   </motion.div>
@@ -182,9 +181,9 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, children }) => (
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.5 }}
-    className="bg-secondary p-6 rounded-xl border border-border/50 hover:border-primary/30 transition-all duration-300"
+    className="bg-dark p-6 rounded-xl border border-cyan-500/10 hover:border-cyan-400/30 transition-all duration-300"
   >
-    <h3 className="text-lg font-semibold text-text mb-4">{title}</h3>
+    <h3 className="text-lg font-semibold text-cyan-400 mb-4">{title}</h3>
     <div className="h-[300px]">{children}</div>
   </motion.div>
 );
@@ -194,10 +193,10 @@ const InsightCard: React.FC<InsightCardProps> = ({ title, value, trend }) => (
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.5 }}
-    className="bg-primary/10 p-4 rounded-lg"
+    className="bg-cyan-950/30 p-4 rounded-lg border border-cyan-500/10"
   >
-    <h4 className="text-text/60 text-sm">{title}</h4>
-    <p className="text-lg font-bold text-text mt-1">{value}</p>
+    <h4 className="text-gray-400 text-sm">{title}</h4>
+    <p className="text-lg font-bold text-cyan-400 mt-1">{value}</p>
   </motion.div>
 );
 
@@ -233,11 +232,11 @@ const DashboardOverview: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col p-6 w-full h-full overflow-y-auto bg-background">
+    <div className="flex flex-col p-6 w-full h-full overflow-y-auto">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold text-text mb-8"
+        className="text-3xl font-bold text-cyan-400 mb-8"
       >
         Dashboard Overview
       </motion.h1>
@@ -269,22 +268,25 @@ const DashboardOverview: React.FC = () => {
         <ChartCard title="Calls Over Time">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={callsOverTimeData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#3A3A3A" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgb(6 182 212 / 0.1)"
+              />
               <XAxis dataKey="date" stroke="#A0A0A0" />
               <YAxis stroke="#A0A0A0" />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#2A2A2A",
-                  border: "1px solid #3A3A3A",
+                  backgroundColor: "#0A0E1A",
+                  border: "1px solid rgb(6 182 212 / 0.2)",
                 }}
                 labelStyle={{ color: "#FFFFFF" }}
               />
               <Line
                 type="monotone"
                 dataKey="calls"
-                stroke="#4A9D9A"
+                stroke="#22D3EE"
                 strokeWidth={2}
-                dot={{ fill: "#4A9D9A" }}
+                dot={{ fill: "#22D3EE" }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -307,7 +309,7 @@ const DashboardOverview: React.FC = () => {
                 {revenueData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={index % 2 === 0 ? "#22D3EE" : "#0EA5E9"}
                   />
                 ))}
               </Bar>
@@ -328,11 +330,11 @@ const DashboardOverview: React.FC = () => {
                 }}
                 labelStyle={{ color: "#FFFFFF" }}
               />
-              <Bar dataKey="rate" fill="#5AB5B2">
+              <Bar dataKey="rate" className="fill-cyan-400">
                 {conversionData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={index % 2 === 0 ? "#22D3EE" : "#0EA5E9"}
                   />
                 ))}
               </Bar>
@@ -355,7 +357,7 @@ const DashboardOverview: React.FC = () => {
                 {outcomeData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={index % 2 === 0 ? "#22D3EE" : "#0EA5E9"}
                   />
                 ))}
               </Pie>
