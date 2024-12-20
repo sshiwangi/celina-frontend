@@ -166,8 +166,8 @@ const Sidebar = () => {
             >
               <MenuItem
                 icon={<Users className="w-3.5 h-3.5 text-icon/30" />}
-                label="Assistants"
-                href="/dashboard/assistants"
+                label="Agent Settings"
+                href="/dashboard/agent-settings"
               />
               {/* <MenuItem
               icon={

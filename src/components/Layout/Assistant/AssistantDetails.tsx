@@ -99,13 +99,13 @@ export const AssistantDetails: React.FC<AssistantDetailsProps> = ({
             <div className="space-y-4">
               <div className="flex gap-3">
                 <div
-                  className="chakra-editable w-full text-text"
+                  className=" w-full text-text"
                   data-testid="assistant-name-editable"
                 >
                   <span
                     tabIndex={0}
                     style={{ paddingTop: 0, paddingBottom: 0, width: "100%" }}
-                    className="chakra-editable__preview"
+                    className=""
                   >
                     {assistant.name}
                   </span>
