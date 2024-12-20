@@ -139,7 +139,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Engineers Gonna Build&apos; <br /> AI's Gonna Sell.
+            Engineers Gonna Build&apos; <br /> AI&apos;s Gonna Sell.
           </motion.h1>
 
           <div className=" text-center">
