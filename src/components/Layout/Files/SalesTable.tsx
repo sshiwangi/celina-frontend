@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { PhoneCall, Plus } from "lucide-react";
 
@@ -34,7 +33,6 @@ const defaultColumns: Column[] = [
 ];
 
 const callStatuses = [
-  "Dialing...",
   "In Call",
   "Call Ended",
   "No Answer",
@@ -48,7 +46,13 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [newColumnName, setNewColumnName] = useState("");
-  const [data, setData] = useState<SalesData[]>(initialData);
+  const [data, setData] = useState<SalesData[]>(
+    initialData.map((item) => ({
+      ...item,
+      callStatus: "-",
+      callDuration: "-",
+    }))
+  );
   const [isSimulatingCalls, setIsSimulatingCalls] = useState(false);
 
   const simulateCallAPI = async (
@@ -56,7 +60,7 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
   ): Promise<{ status: string; duration: string }> => {
     // Simulate API delay
     await new Promise((resolve) =>
-      setTimeout(resolve, Math.random() * 2000 + 1000)
+      setTimeout(resolve, 5000 + Math.random() * 2000)
     );
 
     // Randomly select a status and duration
@@ -74,43 +78,40 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
     if (isSimulatingCalls) return;
     setIsSimulatingCalls(true);
 
-    // Create a copy of the data to update
-    let updatedData = [...data];
+    // Set all statuses to "Initiating..." at once
+    setData((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        callStatus: "Initiating...",
+        callDuration: "0:00",
+      }))
+    );
 
-    // Process each phone number sequentially
-    for (let i = 0; i < updatedData.length; i++) {
-      const row = updatedData[i];
-
-      // Update status to "Dialing..."
-      updatedData = updatedData.map((item, index) =>
-        index === i
-          ? { ...item, callStatus: "Dialing...", callDuration: "0:00" }
-          : item
-      );
-      setData(updatedData);
-
-      // Simulate API call
+    // Create promises for all calls
+    const callPromises = data.map(async (row, index) => {
       try {
         const { status, duration } = await simulateCallAPI(row.phone);
-
-        // Update with API response
-        updatedData = updatedData.map((item, index) =>
-          index === i
-            ? { ...item, callStatus: status, callDuration: duration }
-            : item
-        );
-        setData(updatedData);
+        return { index, status, duration };
       } catch (error) {
         console.error("Error simulating call:", error);
-        // Update with error status
-        updatedData = updatedData.map((item, index) =>
-          index === i
-            ? { ...item, callStatus: "Call Failed", callDuration: "0:00" }
-            : item
-        );
-        setData(updatedData);
+        return { index, status: "Call Failed", duration: "0:00" };
       }
-    }
+    });
+
+    // Wait for all calls to complete and update statuses
+    const results = await Promise.all(callPromises);
+
+    setData((prevData) => {
+      const newData = [...prevData];
+      results.forEach(({ index, status, duration }) => {
+        newData[index] = {
+          ...newData[index],
+          callStatus: status,
+          callDuration: duration,
+        };
+      });
+      return newData;
+    });
 
     setIsSimulatingCalls(false);
   };
@@ -130,7 +131,11 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
         <h2 className="text-lg font-bold text-text">Sales Data</h2>
         <button
           onClick={() => setShowAddColumn(true)}
-          className="gap-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap text-sm font-bold group rounded-lg ring-1 ring-cyan-500/20 bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500 border-t-[1px] border-b-[0px] border-l-[0px] border-r-[0px] border-white/30 hover:border-white/40 active:border-b-0 active:border-l-0 active:border-r-0 shadow-sm shadow-black/20 hover:shadow-md hover:shadow-cyan-500/30"
+          className="gap-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 
+                   focus-visible:ring-cyan-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 
+                   [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white h-10 px-4 py-2 inline-flex 
+                   items-center justify-center whitespace-nowrap text-sm font-bold group rounded-lg ring-1 ring-cyan-500/20 
+                   bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500"
         >
           <Plus size={16} /> Add Column
         </button>
@@ -167,7 +172,7 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
                           className={`
                             px-2 py-1 rounded-full text-xs
                             ${
-                              row[column.id] === "Dialing..."
+                              row[column.id] === "Initiating..."
                                 ? "bg-yellow-100 text-yellow-800"
                                 : ""
                             }
@@ -203,10 +208,10 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
                             }
                           `}
                         >
-                          {row[column.id] || "-"}
+                          {row[column.id]}
                         </span>
                       ) : (
-                        row[column.id] || "-"
+                        row[column.id]
                       )}
                     </td>
                   ))}
@@ -231,10 +236,11 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
           onClick={startCalling}
           disabled={isSimulatingCalls}
           className={`flex items-center gap-2 px-3 py-1.5 text-white rounded-lg text-sm transition-all duration-150 
-    bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500
-    ring-1 ring-cyan-500/20 shadow-sm shadow-black/20 hover:shadow-cyan-500/30
-    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-cyan-400 disabled:hover:to-blue-400
-    ${isSimulatingCalls ? "opacity-50 cursor-not-allowed" : ""}`}
+                   bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500
+                   ring-1 ring-cyan-500/20 shadow-sm shadow-black/20 hover:shadow-cyan-500/30
+                   disabled:opacity-50 disabled:cursor-not-allowed ${
+                     isSimulatingCalls ? "opacity-50 cursor-not-allowed" : ""
+                   }`}
         >
           <PhoneCall size={16} />
           {isSimulatingCalls ? "Calling in Progress..." : "Start Calling"}
@@ -263,7 +269,11 @@ const SalesTable = ({ data: initialData }: SalesTableProps) => {
               </button>
               <button
                 onClick={addColumn}
-                className=" hover:bg-primary/80 gap-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap text-sm font-bold group rounded-lg ring-1 ring-cyan-500/20 bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500 border-t-[1px] border-b-[0px] border-l-[0px] border-r-[0px] border-white/30 hover:border-white/40 active:border-b-0 active:border-l-0 active:border-r-0 shadow-sm shadow-black/20 hover:shadow-md hover:shadow-cyan-500/30"
+                className="gap-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 
+                         focus-visible:ring-cyan-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 
+                         text-white h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap text-sm font-bold 
+                         group rounded-lg ring-1 ring-cyan-500/20 bg-gradient-to-r from-cyan-400 to-blue-400 
+                         hover:from-cyan-500 hover:to-blue-500"
               >
                 Add
               </button>

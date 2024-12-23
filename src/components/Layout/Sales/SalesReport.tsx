@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { SalesData } from "@/utils/sales_mock_data";
 
@@ -14,22 +13,44 @@ interface SalesTableProps {
 
 const defaultColumns: Column[] = [
   { id: "name", name: "Name" },
-  // { id: "phone", name: "Phone" },
   { id: "callStatus", name: "Call Status" },
-  // { id: "summary", name: "Call Summary" },
   { id: "leadConversionRate", name: "Lead Conversion Rate" },
-  // { id: "salesSuccessRate", name: "Sales Success Rate" },
   { id: "callDuration", name: "Call Duration" },
-  // { id: "callbackRequested", name: "Callback Requested" },
-  // { id: "nextFollowUpDate", name: "Next Follow Up" },
-  // { id: "productDiscussed", name: "Product" },
-  // { id: "priceQuoted", name: "Price Quoted" },
 ];
+
+type CallStatus = "Initiating..." | "In Call" | "Call Ended";
 
 const SalesTable = ({ data }: SalesTableProps) => {
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [newColumnName, setNewColumnName] = useState("");
+  const [callStatuses, setCallStatuses] = useState<{
+    [key: string]: CallStatus;
+  }>({});
+
+  useEffect(() => {
+    // Initialize all calls to "Initiating..."
+    const initialStatuses = data.reduce((acc, row) => {
+      acc[row.id] = "Initiating...";
+      return acc;
+    }, {} as { [key: string]: CallStatus });
+
+    setCallStatuses(initialStatuses);
+
+    // Update random rows after a delay
+    const timeouts = data.map((row, index) => {
+      return setTimeout(() => {
+        setCallStatuses((prev) => ({
+          ...prev,
+          [row.id]: Math.random() > 0.5 ? "In Call" : "Call Ended",
+        }));
+      }, 5000 + Math.random() * 2000); // Random delay between 5-7 seconds
+    });
+
+    return () => {
+      timeouts.forEach((timeout) => clearTimeout(timeout));
+    };
+  }, [data]);
 
   const addColumn = () => {
     if (newColumnName.trim()) {
@@ -46,7 +67,14 @@ const SalesTable = ({ data }: SalesTableProps) => {
         <h2 className="text-lg font-bold text-text">Sales Report</h2>
         <button
           onClick={() => setShowAddColumn(true)}
-          className="gap-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap text-sm font-bold group rounded-lg ring-1 ring-cyan-500/20 bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-500 hover:to-blue-500 border-t-[1px] border-b-[0px] border-l-[0px] border-r-[0px] border-white/30 hover:border-white/40 active:border-b-0 active:border-l-0 active:border-r-0 shadow-sm shadow-black/20 hover:shadow-md hover:shadow-cyan-500/30"
+          className="gap-2 ring-offset-background transition-colors focus-visible:outline-none 
+                    focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 
+                    disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none 
+                    [&_svg]:size-4 [&_svg]:shrink-0 text-white h-10 px-4 py-2 inline-flex 
+                    items-center justify-center whitespace-nowrap text-sm font-bold group rounded-lg 
+                    ring-1 ring-cyan-500/20 bg-gradient-to-r from-cyan-400 to-blue-400 
+                    hover:from-cyan-500 hover:to-blue-500 border-t-[1px] border-b-[0px] 
+                    border-l-[0px] border-r-[0px] border-white/30 hover:border-white/40"
         >
           <Plus size={16} /> Add Column
         </button>
@@ -84,53 +112,25 @@ const SalesTable = ({ data }: SalesTableProps) => {
                       >
                         {column.id === "callStatus" ? (
                           <span
-                            className={`
-                              px-2 py-1 rounded-full text-xs
-                              ${
-                                row[column.id] === "Dialing..."
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "In Call"
-                                  ? "bg-green-100 text-green-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "Call Ended"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "No Answer"
-                                  ? "bg-red-100 text-red-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "Busy"
-                                  ? "bg-orange-100 text-orange-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "Call Failed"
-                                  ? "bg-red-100 text-red-800"
-                                  : ""
-                              }
-                              ${
-                                row[column.id] === "Voicemail"
-                                  ? "bg-purple-100 text-purple-800"
-                                  : ""
-                              }
-                            `}
+                            className={`px-2 py-1 rounded-full text-xs
+                            ${
+                              callStatuses[row.id] === "Initiating..."
+                                ? "bg-yellow-100 text-yellow-800"
+                                : ""
+                            }
+                            ${
+                              callStatuses[row.id] === "In Call"
+                                ? "bg-green-100 text-green-800"
+                                : ""
+                            }
+                            ${
+                              callStatuses[row.id] === "Call Ended"
+                                ? "bg-blue-100 text-blue-800"
+                                : ""
+                            }`}
                           >
-                            {row[column.id]}
+                            {callStatuses[row.id]}
                           </span>
-                        ) : column.id === "callbackRequested" ? (
-                          row[column.id] ? (
-                            "Yes"
-                          ) : (
-                            "No"
-                          )
                         ) : (
                           row[column.id as keyof SalesData]
                         )}

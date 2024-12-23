@@ -11,6 +11,7 @@ import {
   Radio,
   User,
   ChartAreaIcon,
+  DollarSign,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -151,6 +152,11 @@ const Sidebar = () => {
               label="Overview"
               href="/dashboard"
             />
+            <MenuItem
+              icon={<Globe className="w-3.5 h-3.5 text-icon/30" />}
+              label="Analytics"
+              href="/dashboard/analytics" //camapign and agent performance
+            />
 
             <CollapsibleSection
               icon={<Cpu className="w-3.5 h-3.5 text-icon/30" />}
@@ -158,8 +164,8 @@ const Sidebar = () => {
             >
               <MenuItem
                 icon={<Users className="w-3.5 h-3.5 text-icon/30" />}
-                label="Agent Settings"
-                href="/dashboard/agent-settings"
+                label="Agents"
+                href="/dashboard/agents"
               />
               {/* <MenuItem
               icon={
@@ -177,7 +183,12 @@ const Sidebar = () => {
               <MenuItem
                 icon={<FileText className="w-3.5 h-3.5 text-icon/30" />}
                 label="Knowledge Base"
-                href="/dashboard/files"
+                href="/dashboard/knowledge-base"
+              />
+              <MenuItem
+                icon={<DollarSign className="w-3.5 h-3.5 text-icon/30" />}
+                label="Tools"
+                href="/dashboard/tools"
               />
 
               <MenuItem
@@ -186,6 +197,12 @@ const Sidebar = () => {
                 href="/dashboard/sales-report"
               />
             </CollapsibleSection>
+
+            <MenuItem
+              icon={<DollarSign className="w-3.5 h-3.5 text-icon/30" />}
+              label="Sales Campaign"
+              href="/dashboard/sales-campaigns"
+            />
 
             <MenuItem
               icon={<Radio className="w-3.5 h-3.5 text-icon/30" />}

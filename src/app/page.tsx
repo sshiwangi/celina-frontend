@@ -139,8 +139,6 @@ export default function Home() {
   const [audioComponents, setAudioComponents] = useState<JSX.Element[]>([]);
   const [transcription, setTranscription] = useState<string>("");
 
-
-
   const [isListening, setIsListening] = useState(false);
   const [audioLevel, setAudioLevel] = useState(0);
   const webRTCRef = useRef<WebRTCConnection>({
@@ -287,78 +285,78 @@ export default function Home() {
         console.error("Data channel error:", error);
       };
 
-     dc.addEventListener("message", (e) => {
-       const data = JSON.parse(e.data);
-       console.log("Received message:", data);
+      dc.addEventListener("message", (e) => {
+        const data = JSON.parse(e.data);
+        console.log("Received message:", data);
 
-       switch (data.type) {
-         case "session.created":
-           console.log("Session successfully created");
-           break;
+        switch (data.type) {
+          case "session.created":
+            console.log("Session successfully created");
+            break;
 
-         case "input_audio_buffer.speech_started":
-           setTranscription((prev) => prev + "\nYou: "); // Start new line for user input
-           break;
+          case "input_audio_buffer.speech_started":
+            setTranscription((prev) => prev + "\nYou: "); // Start new line for user input
+            break;
 
-         case "input_audio_buffer.speech_stopped":
-           setTranscription((prev) => prev + "\n"); // End user input line
-           break;
+          case "input_audio_buffer.speech_stopped":
+            setTranscription((prev) => prev + "\n"); // End user input line
+            break;
 
-         case "audio.response.started":
-           setTranscription((prev) => prev + "\nAI: "); // Start new line for AI response
-           break;
+          case "audio.response.started":
+            setTranscription((prev) => prev + "\nAI: "); // Start new line for AI response
+            break;
 
-         case "audio.response.message":
-           if (data.text) {
-             setTranscription((prev) => prev + data.text + " ");
-           }
-           // Handle audio data if present
-           if (data.audio) {
-             setAudioComponents((prev) => [
-               ...prev,
-               <AudioPlayer
-                 key={data.event_id || Date.now()}
-                 audioData={{
-                   audio_end_ms: data.audio_end_ms || 0,
-                   event_id: data.event_id || "",
-                   item_id: data.item_id || "",
-                   type: data.type,
-                 }}
-                 audioBuffer={data.audio}
-               />,
-             ]);
-           }
-           break;
+          case "audio.response.message":
+            if (data.text) {
+              setTranscription((prev) => prev + data.text + " ");
+            }
+            // Handle audio data if present
+            if (data.audio) {
+              setAudioComponents((prev) => [
+                ...prev,
+                <AudioPlayer
+                  key={data.event_id || Date.now()}
+                  audioData={{
+                    audio_end_ms: data.audio_end_ms || 0,
+                    event_id: data.event_id || "",
+                    item_id: data.item_id || "",
+                    type: data.type,
+                  }}
+                  audioBuffer={data.audio}
+                />,
+              ]);
+            }
+            break;
 
-         case "audio.response.ended":
-           setTranscription((prev) => prev + "\n"); // End AI response line
-           break;
+          case "audio.response.ended":
+            setTranscription((prev) => prev + "\n"); // End AI response line
+            break;
 
-         case "error":
-           console.error("Error from OpenAI:", data.error);
-           // Show error to user
-           setTranscription((prev) => prev + "\nError: " + data.error);
-           break;
+          case "error":
+            console.error("Error from OpenAI:", data.error);
+            // Show error to user
+            setTranscription((prev) => prev + "\nError: " + data.error);
+            break;
 
-         case "audio_buffer":
-           if (data.audio) {
-             setAudioComponents((prev) => [
-               ...prev,
-               <AudioPlayer
-                 key={data.event_id}
-                 audioData={{
-                   audio_end_ms: data.audio_end_ms,
-                   event_id: data.event_id,
-                   item_id: data.item_id,
-                   type: data.type,
-                 }}
-                 audioBuffer={data.audio}
-               />,
-             ]);
-           }
-           break;
-       }
-     });
+          case "audio_buffer":
+            if (data.audio) {
+              setAudioComponents((prev) => [
+                ...prev,
+                <AudioPlayer
+                  key={data.event_id}
+                  audioData={{
+                    audio_end_ms: data.audio_end_ms,
+                    event_id: data.event_id,
+                    item_id: data.item_id,
+                    type: data.type,
+                  }}
+                  audioBuffer={data.audio}
+                />,
+              ]);
+            }
+            break;
+        }
+      });
 
       // Create and set offer
       console.log("Creating offer...");
@@ -476,8 +474,6 @@ export default function Home() {
       stopWebRTC();
     }
   };
-
-  
 
   // Cleanup on component unmount
   useEffect(() => {

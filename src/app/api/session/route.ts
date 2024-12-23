@@ -1,3 +1,4 @@
+import { SYSTEM_MESSAGE } from "@/utils/prompt";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -17,7 +18,15 @@ export async function GET() {
         },
         body: JSON.stringify({
           model: "gpt-4o-realtime-preview-2024-12-17",
-          voice: "verse",
+          instructions: SYSTEM_MESSAGE,
+          voice: "shimmer",
+          turn_detection: {
+            type: "server_vad",
+            threshold: 1,
+            prefix_padding_ms: 300,
+            silence_duration_ms: 500,
+            create_response: true,
+          },
         }),
       }
     );
